@@ -1,14 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './modules/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store, { history } from 'store';
+import App from 'modules/App';
+import Routes from 'routes';
+
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+  	<Provider store={store}>
+      <App>
+        <Routes history={history} />
+      </App>
+    </Provider>
   </React.StrictMode>
 );
 
