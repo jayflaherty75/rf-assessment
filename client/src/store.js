@@ -1,32 +1,19 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { createBrowserHistory } from 'history';
+import { configureStore } from '@reduxjs/toolkit';
+import appReducer from 'modules/App/reducer';
+import topicsReducer from 'modules/Topics/reducer';
+import listsReducer from 'modules/Lists/reducer';
+import tasksReducer from 'modules/Tasks/reducer';
 
-const counterSlice = createSlice({
-    name: 'counter',
-    initialState: {
-      value: 0
-    },
-    reducers: {
-      incremented: state => {
-        // Redux Toolkit allows us to write "mutating" logic in reducers. It
-        // doesn't actually mutate the state because it uses the Immer library,
-        // which detects changes to a "draft state" and produces a brand new
-        // immutable state based off those changes
-        state.value += 1
-      },
-      decremented: state => {
-        state.value -= 1
-      }
-    }
-})
-  
-const history = createBrowserHistory();
+const reducer = {
+    app: appReducer,
+    topics: topicsReducer,
+    lists: listsReducer,
+    tasks: tasksReducer
+}
+
 const store = configureStore({
-    reducer: counterSlice
+    devTools: process.env.NODE_ENV !== 'production',
+    reducer
 });
-
-export {
-	history
-};
 
 export default store;

@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './images/logo.svg';
+import { Outlet, Link } from "react-router-dom";
 import './index.css';
 
-function App() {
+function App({ children }) {
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +19,10 @@ function App() {
         >
           Learn React
         </a>
+        <Outlet />
+        <Link to="/">Home</Link>
+        <Link to="page2">Page 2</Link>
+        <Link to="page3">Page 3</Link>
       </header>
     </div>
   );

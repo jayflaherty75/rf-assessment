@@ -1,21 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import store, { history } from 'store';
+import store from 'store';
 import App from 'modules/App';
-import Routes from 'routes';
 
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const Page1 = () => (<div>This is temporary page 1</div>);
+const Page2 = () => (<div>This is temporary page 2</div>);
+const Page3 = () => (<div>This is temporary page 3</div>);
+
 root.render(
   <React.StrictMode>
   	<Provider store={store}>
-      <App>
-        <Routes history={history} />
-      </App>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<Page1 />} />
+            <Route path="page2" element={<Page2 />} />
+            <Route path="page3" element={<Page3 />} />
+            <Route path="*" element={<div>Page not found.</div>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
