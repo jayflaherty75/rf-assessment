@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes  from 'prop-types';
 import { Link } from "react-router-dom";
 
 const Breadcrumb = ({ links }) => (
@@ -23,5 +24,13 @@ const Breadcrumb = ({ links }) => (
         </ol>
     </nav>
 );
+
+Breadcrumb.propTypes = {
+    links: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        url: PropTypes.string
+      })
+    )
+};
 
 export default Breadcrumb;

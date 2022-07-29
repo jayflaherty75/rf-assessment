@@ -6,14 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from 'store';
 import App from 'modules/App';
+import TopicsPage from 'modules/Topics/containers/index';
+import ListsPage from 'modules/Lists/containers/index';
+import TasksPage from 'modules/Tasks/containers/index';
 
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-const Page1 = () => (<div>This is temporary page 1</div>);
-const Page2 = () => (<div>This is temporary page 2</div>);
-const Page3 = () => (<div>This is temporary page 3</div>);
 
 root.render(
   <React.StrictMode>
@@ -21,9 +20,9 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<Page1 />} />
-            <Route path="page2" element={<Page2 />} />
-            <Route path="page3" element={<Page3 />} />
+            <Route index element={<TopicsPage />} />
+            <Route path="lists" element={<ListsPage />} />
+            <Route path="tasks" element={<TasksPage />} />
             <Route path="*" element={<div>Page not found.</div>} />
           </Route>
         </Routes>

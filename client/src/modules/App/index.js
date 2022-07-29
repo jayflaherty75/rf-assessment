@@ -1,17 +1,18 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
-import Breadcrumb from 'modules/Shared/components/breadcrumb';
+import Breadcrumb from 'modules/Shared/flowbite/breadcrumb';
 import './index.css';
 
 const links = [
-  { name: 'Page 2', url: '/page2' },
-  { name: 'Page 3', url: '/page3' }
+  { name: 'Lists', url: '/lists' },
+  { name: 'Tasks', url: '/tasks' }
 ];
 
 function App() {
   return (
     <div className="App">
       <Breadcrumb links={links} />
+      <br/>
       <div><Outlet /></div>
     </div>
   );
