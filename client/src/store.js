@@ -3,6 +3,7 @@ import appReducer from 'modules/App/reducer';
 import topicsReducer from 'modules/Topics/reducer';
 import listsReducer from 'modules/Lists/reducer';
 import tasksReducer from 'modules/Tasks/reducer';
+import workersMiddleware from 'modules/App/middleware/workers';
 
 const reducer = {
     app: appReducer,
@@ -13,7 +14,10 @@ const reducer = {
 
 const store = configureStore({
     devTools: process.env.NODE_ENV !== 'production',
-    reducer
+    reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
+        workersMiddleware
+    )
 });
 
 store.dispatch({ type: 'app/initialize' });

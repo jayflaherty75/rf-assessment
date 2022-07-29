@@ -1,15 +1,29 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import Tabs from 'modules/Shared/flowbite/tabs';
 import EntryField from 'modules/Shared/flowbite/entry-field';
 import {
     Table,
     TableRow,
-    // TableCell,
     TableCellLeft,
     TableCellRight,
 } from 'modules/Shared/flowbite/table';
 import ArchiveIcon from 'modules/Shared/icons/archive';
 import XIcon from 'modules/Shared/icons/x';
+import { generateId } from 'lib/helpers';
+import {
+    actionListCreate,
+    actionListUpdate,
+    actionListArchive,
+    actionListDelete
+} from '../actions';
+import {
+    actionSetList,
+} from 'modules/App/actions';
+import { selectCurrentTopic } from 'modules/App/selectors';
+
+const selectLists = (state) => state.lists;
 
 const ACTIVE_TAB = 0
 // const ARCHIVE_TAB = 1
@@ -35,7 +49,17 @@ class ListsPage extends React.Component {
     }
 
     handleOnSubmit = event => {
+        event.preventDefault();
 
+        const { topicId, createDispatch } = this.props;
+        const { list } = this.state
+
+        if (list) {
+            createDispatch(generateId(), topicId, list);
+            this.setState({ list: '' });
+        }
+
+        return false;
     }
 
     handleOnTabSelect = select => {
@@ -46,6 +70,8 @@ class ListsPage extends React.Component {
 
     render() {
         const { currentTab } = this.state;
+        const { lists, topicId, deleteDispatch, archiveDispatch, setListDispatch } = this.props;
+        const ids = Object.keys(lists).filter(id => lists[id].topicId === topicId);
 
         return (
             <div>
@@ -66,71 +92,35 @@ class ListsPage extends React.Component {
                                 onChange={this.handleOnChange}
                             />
                             <Table>
-                                <TableRow>
-                                    <TableCellLeft>General</TableCellLeft>
-                                    <TableCellRight>
-                                        <ArchiveIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>Task List Project</TableCellLeft>
-                                    <TableCellRight>
-                                        <ArchiveIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>No Regerts</TableCellLeft>
-                                    <TableCellRight>
-                                        <ArchiveIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>Things not to forget</TableCellLeft>
-                                    <TableCellRight>
-                                        <ArchiveIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>Things I forgot</TableCellLeft>
-                                    <TableCellRight>
-                                        <ArchiveIcon/>
-                                    </TableCellRight>
-                                </TableRow>
+                                {
+                                    ids.filter(id => !lists[id].isArchived).map(id => (
+                                        <TableRow key={id}>
+                                            <TableCellLeft>
+                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{lists[id].title}</Link>
+                                            </TableCellLeft>
+                                            <TableCellRight>
+                                                <div onClick={() => archiveDispatch(id)}><ArchiveIcon/></div>
+                                            </TableCellRight>
+                                        </TableRow>
+                                    ))
+                                }
                             </Table>
                         </div>
                     ) : (
                         <div>
                             <Table>
-                                <TableRow>
-                                    <TableCellLeft>General</TableCellLeft>
-                                    <TableCellRight>
-                                        <XIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>Task List Project</TableCellLeft>
-                                    <TableCellRight>
-                                        <XIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>No Regerts</TableCellLeft>
-                                    <TableCellRight>
-                                        <XIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>Things not to forget</TableCellLeft>
-                                    <TableCellRight>
-                                        <XIcon/>
-                                    </TableCellRight>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCellLeft>Things I forgot</TableCellLeft>
-                                    <TableCellRight>
-                                        <XIcon/>
-                                    </TableCellRight>
-                                </TableRow>
+                                {
+                                    ids.filter(id => lists[id].isArchived).map(id => (
+                                        <TableRow key={id}>
+                                            <TableCellLeft>
+                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{lists[id].title}</Link>
+                                            </TableCellLeft>
+                                            <TableCellRight>
+                                                <div onClick={() => deleteDispatch(id)}><XIcon/></div>
+                                            </TableCellRight>
+                                        </TableRow>
+                                    ))
+                                }
                             </Table>
                         </div>
                     )
@@ -140,4 +130,19 @@ class ListsPage extends React.Component {
     }
 };
 
-export default ListsPage;
+const mapStateToProps = state => ({
+	lists: selectLists(state),
+    topicId: selectCurrentTopic(state)
+});
+
+const mapDispatchToProps = {
+    createDispatch: actionListCreate,
+    updateDispatch: actionListUpdate,
+    archiveDispatch: actionListArchive,
+    deleteDispatch: actionListDelete,
+    setListDispatch: actionSetList
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(
+	ListsPage
+);

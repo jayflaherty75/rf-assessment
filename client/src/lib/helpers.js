@@ -1,6 +1,6 @@
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 
-const generateId = () => uuid.v5();
+const generateId = () => uuid();
 
 const isValidDate = d => !isNaN(Date.parse(d));
 
