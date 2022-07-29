@@ -1,29 +1,18 @@
 import React from 'react';
-import logo from './images/logo.svg';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Breadcrumb from 'modules/Shared/components/breadcrumb';
 import './index.css';
 
-function App({ children }) {
+const links = [
+  { name: 'Page 2', url: '/page2' },
+  { name: 'Page 3', url: '/page3' }
+];
+
+function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Outlet />
-        <Link to="/">Home</Link>
-        <Link to="page2">Page 2</Link>
-        <Link to="page3">Page 3</Link>
-      </header>
+      <Breadcrumb links={links} />
+      <div><Outlet /></div>
     </div>
   );
 }

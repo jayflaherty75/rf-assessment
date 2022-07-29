@@ -16,4 +16,6 @@ const store = configureStore({
     reducer
 });
 
+store.dispatch({ type: 'app/initialize' });
+
 export default store;

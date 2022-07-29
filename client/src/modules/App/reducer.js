@@ -9,6 +9,7 @@ const appReducer = createSlice({
     name: 'app',
     initialState,
     reducers: {
+      initialize: state => state,
       setTopic: (state, action) => {
         state.topicId = action.payload.id
       },
