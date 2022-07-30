@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import './workers';
 
-const initialState = {};
+const initialState = JSON.parse(localStorage.getItem('topics')) || {
+  DEFAULT: {
+    id: 'DEFAULT',
+    name: 'General'
+  }
+};
+console.log(initialState);
 
 const topicsReducer = createSlice({
     name: 'topics',

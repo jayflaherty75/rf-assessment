@@ -9,7 +9,7 @@ import {
     TableCellRight,
 } from 'modules/Shared/flowbite/table';
 import XIcon from 'modules/Shared/icons/x';
-import { generateId } from 'lib/helpers';
+import { generateId, cropStr } from 'lib/helpers';
 import { selectTopics } from '../selectors';
 import {
     actionTopicCreate,
@@ -67,7 +67,7 @@ class TopicsPage extends React.Component {
                         ids.map((id, index) => (
                             <TableRow key={index}>
                                 <TableCellLeft>
-                                    <Link to="/lists" onClick={() => setTopicDispatch(id)}>{topics[id].name}</Link>
+                                    <Link to="/lists" onClick={() => setTopicDispatch(id)}>{cropStr(topics[id].name, 30)}</Link>
                                 </TableCellLeft>
                                 <TableCellRight>
                                     <div onClick={() => deleteDispatch(id)}><XIcon/></div>

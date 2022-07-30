@@ -1,8 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import './workers';
 
 const orderReducer = (acc, task) => task.order > acc ? task.order : acc;
 
-const initialState = {};
+const initialState = JSON.parse(localStorage.getItem('tasks')) || {
+  DEFAULT: {
+    id: 'DEFAULT',
+    listId: 'DEFAULT',
+    task: 'Call Mom',
+    order: 1,
+    isDone: false
+  }
+};
 
 const tasksReducer = createSlice({
     name: 'tasks',

@@ -12,7 +12,7 @@ import {
 import ArrowUpIcon from 'modules/Shared/icons/arrow-up';
 import CheckIcon from 'modules/Shared/icons/check';
 import XIcon from 'modules/Shared/icons/x';
-import { generateId } from 'lib/helpers';
+import { generateId, cropStr } from 'lib/helpers';
 import {
     actionTaskCreate,
     actionTaskUpdate,
@@ -97,7 +97,7 @@ class TasksPage extends React.Component {
                                 {
                                     ids.filter(id => !tasks[id].isDone).map((id, index) => (
                                         <TableRow key={id}>
-                                            <TableCellLeft>{tasks[id].task}</TableCellLeft>
+                                            <TableCellLeft>{cropStr(tasks[id].task, 30)}</TableCellLeft>
                                             <TableCell>
                                                 {
                                                     index > 0 ? (
@@ -119,7 +119,7 @@ class TasksPage extends React.Component {
                                 {
                                     ids.filter(id => tasks[id].isDone).map(id => (
                                         <TableRow key={id}>
-                                            <TableCellLeft>{tasks[id].task}</TableCellLeft>
+                                            <TableCellLeft>{cropStr(tasks[id].task, 30)}</TableCellLeft>
                                             <TableCell>
                                                 <div onClick={() => updateIsDoneDispatch(id, false)}><CheckIcon/></div>
                                             </TableCell>

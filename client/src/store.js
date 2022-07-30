@@ -3,7 +3,7 @@ import appReducer from 'modules/App/reducer';
 import topicsReducer from 'modules/Topics/reducer';
 import listsReducer from 'modules/Lists/reducer';
 import tasksReducer from 'modules/Tasks/reducer';
-import workersMiddleware from 'modules/App/middleware/workers';
+import workersMiddleware, { initializeWorkers } from 'modules/App/middleware/workers';
 
 const reducer = {
     app: appReducer,
@@ -19,6 +19,8 @@ const store = configureStore({
         workersMiddleware
     )
 });
+
+initializeWorkers(store);
 
 store.dispatch({ type: 'app/initialize' });
 

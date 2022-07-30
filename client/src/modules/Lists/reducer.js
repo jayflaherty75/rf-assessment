@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import './workers';
 
-const initialState = {};
+const initialState = JSON.parse(localStorage.getItem('lists')) || {
+  DEFAULT: {
+    id: 'DEFAULT',
+    topicId: 'DEFAULT',
+    title: 'Reminders',
+    keys: [],
+    isArchived: false
+  }
+};
 
 const listsReducer = createSlice({
     name: 'lists',
@@ -27,27 +36,6 @@ const listsReducer = createSlice({
         state[id].title = title;
         state[id].updated = date;
       },
-      /*
-      index: (state, { payload }) => {
-        const { id } = payload;
-        console.log(state.tasks);
-        const concatArgs = [
-            [],
-            ...state.tasks.filter(t => t.listId === id)
-        ];
-        console.log(concatArgs);
-        const allTasks = [].concat.apply(concatArgs);
-        console.log(allTasks);
-        const superStr = allTasks.join(' ');
-        console.log(superStr);
-        const wordsOnly = superStr.replace(/[.,;'"]/g).toLowerCase();
-        console.log(wordsOnly);
-        const keys = Array.from(new Set(wordsOnly.split(' ')));
-        console.log(keys);
-
-        state[id].keys = keys;
-      },
-      */
       archive: (state, { payload }) => {
         const { id } = payload;
         const date = (new Date()).toISOString();

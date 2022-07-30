@@ -1,21 +1,43 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Outlet } from "react-router-dom";
 import Breadcrumb from 'modules/Shared/flowbite/breadcrumb';
+import { cropStr } from 'lib/helpers';
+import {
+  selectCurrentTopic,
+  selectCurrentList
+} from './selectors';
+import { selectTopicName } from 'modules/Topics/selectors';
+import { selectListTitle } from 'modules/Lists/selectors';
+
 import './index.css';
 
-const links = [
-  { name: 'Lists', url: '/lists' },
-  { name: 'Tasks', url: '/tasks' }
-];
+class App extends React.Component {
+  render() {
+    const { topicId, listId, topicName, listTitle} = this.props;
+    const links = [];
 
-function App() {
-  return (
-    <div className="App">
-      <Breadcrumb links={links} />
-      <br/>
-      <div><Outlet /></div>
-    </div>
-  );
+    // Not pretty
+    if (topicId) links.push({ name: cropStr(topicName, 20), url: '/lists' });
+    if (listId) links.push({ name: cropStr(listTitle, 20), url: '/tasks' });
+
+    return (
+      <div className="App">
+        <Breadcrumb links={links} />
+        <br/>
+        <div><Outlet /></div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  const topicId =  selectCurrentTopic(state);
+  const listId = selectCurrentList(state);
+  const topicName = selectTopicName(state, topicId);
+  const listTitle = selectListTitle(state, listId);
+
+  return { topicId, listId, topicName, listTitle };
+}
+
+export default connect(mapStateToProps)(App);

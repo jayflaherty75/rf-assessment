@@ -20,15 +20,17 @@ const _errorAction = error => ({ type: ACTION_MIDDLEWARE_ERROR, error });
  * @param {object} options.dispatch - Action dispatcher, `dispatch(action)`
  * @throws {Error}
  */
-export const init = (options = {}) => {
-	const { store } = options;
-
+export const initializeWorkers = (store) => {
 	if (typeof store !== 'object') {
 		throw (new Error(storeErrorMsg));
 	}
 
 	_store = store;
 	_dispatcher = action => _store.dispatch(action);
+};
+
+export const createSelector = (selector) => {
+	return (...args) => selector(_store.getState(), ...args);
 };
 
 /**

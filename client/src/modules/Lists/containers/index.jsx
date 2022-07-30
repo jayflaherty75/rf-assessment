@@ -11,7 +11,7 @@ import {
 } from 'modules/Shared/flowbite/table';
 import ArchiveIcon from 'modules/Shared/icons/archive';
 import XIcon from 'modules/Shared/icons/x';
-import { generateId } from 'lib/helpers';
+import { generateId, cropStr } from 'lib/helpers';
 import {
     actionListCreate,
     actionListUpdate,
@@ -22,8 +22,7 @@ import {
     actionSetList,
 } from 'modules/App/actions';
 import { selectCurrentTopic } from 'modules/App/selectors';
-
-const selectLists = (state) => state.lists;
+import { selectLists } from '../selectors';
 
 const ACTIVE_TAB = 0
 // const ARCHIVE_TAB = 1
@@ -96,7 +95,7 @@ class ListsPage extends React.Component {
                                     ids.filter(id => !lists[id].isArchived).map(id => (
                                         <TableRow key={id}>
                                             <TableCellLeft>
-                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{lists[id].title}</Link>
+                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{cropStr(lists[id].title, 30)}</Link>
                                             </TableCellLeft>
                                             <TableCellRight>
                                                 <div onClick={() => archiveDispatch(id)}><ArchiveIcon/></div>
@@ -113,7 +112,7 @@ class ListsPage extends React.Component {
                                     ids.filter(id => lists[id].isArchived).map(id => (
                                         <TableRow key={id}>
                                             <TableCellLeft>
-                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{lists[id].title}</Link>
+                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{cropStr(lists[id].title, 30)}</Link>
                                             </TableCellLeft>
                                             <TableCellRight>
                                                 <div onClick={() => deleteDispatch(id)}><XIcon/></div>
