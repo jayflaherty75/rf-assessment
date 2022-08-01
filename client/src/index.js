@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from 'store';
 import App from 'modules/App';
-import TopicsPage from 'modules/Topics/containers/index';
-import ListsPage from 'modules/Lists/containers/index';
-import TasksPage from 'modules/Tasks/containers/index';
+import TopicsPage from 'modules/Topics/container';
+import ListsPage from 'modules/Lists/container';
+import TasksPage from 'modules/Tasks/container';
 
 import './index.css';
 

@@ -6,7 +6,7 @@ const isValidDate = d => !isNaN(Date.parse(d));
 
 const delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
 
-const cropStr = (str, len) => {
+const truncate = (str, len) => {
     return (str || {}).length > len ? `${str.substring(0, len - 2)}...` : str;
 };
 
@@ -23,6 +23,6 @@ export {
     generateId,
     isValidDate,
     delay,
-    cropStr,
+    truncate,
     debounce
 };

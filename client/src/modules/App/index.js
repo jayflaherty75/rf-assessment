@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Outlet } from "react-router-dom";
 import Breadcrumb from 'modules/Shared/flowbite/breadcrumb';
-import { cropStr } from 'lib/helpers';
+import { truncate } from 'lib/helpers';
 import {
   selectCurrentTopic,
   selectCurrentList
@@ -18,8 +18,8 @@ class App extends React.Component {
     const links = [];
 
     // Not pretty
-    if (topicId) links.push({ name: cropStr(topicName, 20), url: '/lists' });
-    if (listId) links.push({ name: cropStr(listTitle, 20), url: '/' });
+    if (topicId) links.push({ name: truncate(topicName, 20), url: '/lists' });
+    if (listId) links.push({ name: truncate(listTitle, 20), url: '/' });
 
     return (
       <div className="App">
