@@ -95,7 +95,7 @@ class ListsPage extends React.Component {
                                     ids.filter(id => !lists[id].isArchived).map(id => (
                                         <TableRow key={id}>
                                             <TableCellLeft>
-                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{cropStr(lists[id].title, 30)}</Link>
+                                                <Link to="/" onClick={() => setListDispatch(id)}>{cropStr(lists[id].title, 30)}</Link>
                                             </TableCellLeft>
                                             <TableCellRight>
                                                 <div onClick={() => archiveDispatch(id)}><ArchiveIcon/></div>
@@ -112,7 +112,7 @@ class ListsPage extends React.Component {
                                     ids.filter(id => lists[id].isArchived).map(id => (
                                         <TableRow key={id}>
                                             <TableCellLeft>
-                                                <Link to="/tasks" onClick={() => setListDispatch(id)}>{cropStr(lists[id].title, 30)}</Link>
+                                                <Link to="/" onClick={() => setListDispatch(id)}>{cropStr(lists[id].title, 30)}</Link>
                                             </TableCellLeft>
                                             <TableCellRight>
                                                 <div onClick={() => deleteDispatch(id)}><XIcon/></div>

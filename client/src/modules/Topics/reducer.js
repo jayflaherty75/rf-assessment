@@ -7,7 +7,6 @@ const initialState = JSON.parse(localStorage.getItem('topics')) || {
     name: 'General'
   }
 };
-console.log(initialState);
 
 const topicsReducer = createSlice({
     name: 'topics',

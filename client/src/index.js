@@ -20,9 +20,9 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<TopicsPage />} />
+            <Route index element={<TasksPage />} />
             <Route path="lists" element={<ListsPage />} />
-            <Route path="tasks" element={<TasksPage />} />
+            <Route path="/topics" element={<TopicsPage />} />
             <Route path="*" element={<div>Page not found.</div>} />
           </Route>
         </Routes>

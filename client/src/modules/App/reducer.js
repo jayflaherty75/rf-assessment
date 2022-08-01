@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    topicId: false,
-    listId: false
+    topicId: 'DEFAULT',
+    listId: 'DEFAULT'
 };
 
 const appReducer = createSlice({

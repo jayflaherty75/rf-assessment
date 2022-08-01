@@ -19,7 +19,7 @@ class App extends React.Component {
 
     // Not pretty
     if (topicId) links.push({ name: cropStr(topicName, 20), url: '/lists' });
-    if (listId) links.push({ name: cropStr(listTitle, 20), url: '/tasks' });
+    if (listId) links.push({ name: cropStr(listTitle, 20), url: '/' });
 
     return (
       <div className="App">
