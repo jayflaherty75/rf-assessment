@@ -1,15 +1,7 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import EntryField from 'modules/Shared/flowbite/entry-field';
-import {
-    Table,
-    TableRow,
-    TableCellLeft,
-    TableCellRight,
-} from 'modules/Shared/flowbite/table';
-import XIcon from 'modules/Shared/icons/x';
-import { generateId, truncate } from 'lib/helpers';
+import TopicsUI from './component';
+import { generateId } from 'lib/helpers';
 import { selectTopics } from './selectors';
 import {
     actionTopicCreate,
@@ -49,34 +41,17 @@ class TopicsPage extends React.Component {
     }
 
     render() {
-        const { topics, deleteDispatch, setTopicDispatch } = this.props;
-        const ids = Object.keys(topics);
+        const { topics, setTopicDispatch, deleteDispatch } = this.props;
 
         return (
-            <div>
-                <EntryField
-                    description="New Topic"
-                    buttonText="Create"
-                    name="topic"
-                    value={this.state.topic}
-                    onSubmit={this.handleOnSubmit}
-                    onChange={this.handleOnChange}
-                />
-                <Table>
-                    {
-                        ids.map((id, index) => (
-                            <TableRow key={index}>
-                                <TableCellLeft>
-                                    <Link to="/lists" onClick={() => setTopicDispatch(id)}>{truncate(topics[id].name, 30)}</Link>
-                                </TableCellLeft>
-                                <TableCellRight>
-                                    <div onClick={() => deleteDispatch(id)}><XIcon/></div>
-                                </TableCellRight>
-                            </TableRow>
-                        ))
-                    }
-                </Table>
-            </div>
+            <TopicsUI
+                topics={topics}
+                topicValue={this.state.topic}
+                handleOnChange={this.handleOnChange}
+                handleOnSubmit={this.handleOnSubmit}
+                setTopicDispatch={setTopicDispatch}
+                deleteDispatch={deleteDispatch}
+            />
         );
     }
 };
