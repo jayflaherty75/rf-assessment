@@ -1,7 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import './workers';
 
-const orderReducer = (acc, task) => task.order > acc ? task.order : acc;
+const maxOrderReducer = (acc, task) => task.order > acc ? task.order : acc;
+
+const getNextInOrder = (state, order) => Object.keys(state).filter(id => state[id].order === order + 1);
+
+const swapOrder = (task1, task2, temp = task1.order) => {
+  task1.order = task2.order;
+  task2.order = temp;
+};
+
+const reorderTasksAsc = (tasks, listId) => Object.keys(tasks)
+  .filter(id => tasks[id].listId === listId)
+  .sort((id1, id2) => tasks[id1].order - tasks[id2].order);
 
 const initialState = JSON.parse(localStorage.getItem('tasks')) || {
   DEFAULT: {
@@ -20,7 +31,7 @@ const tasksReducer = createSlice({
       create: (state, { payload }) => {
         const { id, listId, task } = payload;
         const date = (new Date()).toISOString();
-        const order = (Object.values(state).reduce(orderReducer, 0) || 0) + 1;
+        const order = (Object.values(state).reduce(maxOrderReducer, 0) || 0) + 1;
 
         if (!state[id]) {
           state[id] = {
@@ -47,18 +58,19 @@ const tasksReducer = createSlice({
       },
       prioritize: (state, { payload }) => {
         const { id } = payload;
-        const order = state[id].order;
-        const nextId = Object.keys(state).filter(id => state[id].order === order + 1);
+        const nextId = getNextInOrder(state, state[id].order);
 
-        if (nextId) {
-          state[nextId].order = order;
-          state[id].order = order + 1;
-        }
+        nextId && swapOrder(state[id], state[nextId]);
       },
       delete: (state, { payload }) => {
         const { id } = payload;
+        const { listId } = state[id];
 
         delete state[id];
+
+        reorderTasksAsc(state, listId).forEach((id, index) => {
+          state[id].order = index + 1;
+        });
       }
     }
 });
