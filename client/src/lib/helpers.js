@@ -1,5 +1,11 @@
 import { v4 as uuid } from 'uuid';
 
+const parseDate = d => d ? Date.parse(d) : 0;
+
+const sortByUpdated = (ids, data) => ids.sort(
+    (id1, id2) => parseDate(data[id2].updated) - parseDate(data[id1].updated)
+);
+
 const generateId = () => uuid();
 
 const isValidDate = d => !isNaN(Date.parse(d));
@@ -20,6 +26,7 @@ const debounce = (func, timeout = 300) => {
 }
 
 export {
+    sortByUpdated,
     generateId,
     isValidDate,
     delay,

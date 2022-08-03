@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TopicsUI from './component';
+import TopicsUI from './components';
 import { generateId } from 'lib/helpers';
 import { selectTopics } from './selectors';
 import {
@@ -13,31 +13,15 @@ import {
 } from 'modules/App/actions';
 
 class TopicsPage extends React.Component {
-	constructor (props) {
-		super(props);
-		this.state = {
-            topic: ''
-        };
-    }
-
-    handleOnChange = event => {
-        this.setState({
-			[event.target.name]: event.target.value
-		});
-    }
-
     handleOnSubmit = event => {
         event.preventDefault();
 
         const { createDispatch } = this.props;
-        const { topic } = this.state
+        const topic = document.querySelector('#topicInput')?.value;
 
         if (topic) {
             createDispatch(generateId(), topic);
-            this.setState({ topic: '' });
         }
-
-        return false;
     }
 
     render() {
@@ -46,8 +30,6 @@ class TopicsPage extends React.Component {
         return (
             <TopicsUI
                 topics={topics}
-                topicValue={this.state.topic}
-                handleOnChange={this.handleOnChange}
                 handleOnSubmit={this.handleOnSubmit}
                 setTopicDispatch={setTopicDispatch}
                 deleteDispatch={deleteDispatch}
