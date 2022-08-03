@@ -4,7 +4,6 @@ import TasksUI from './components';
 import { generateId } from 'lib/helpers';
 import {
     actionTaskCreate,
-    actionTaskUpdate,
     actionTaskUpdateIsDone,
     actionTaskPrioritize,
     actionTaskDelete
@@ -47,10 +46,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     createDispatch: actionTaskCreate,
-    updateDispatch: actionTaskUpdate,
     updateIsDoneDispatch: actionTaskUpdateIsDone,
-    deleteDispatch: actionTaskDelete,
-    prioritizeDispatch: actionTaskPrioritize
+    prioritizeDispatch: actionTaskPrioritize,
+    deleteDispatch: actionTaskDelete
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(

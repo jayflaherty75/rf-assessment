@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import EntryField from 'modules/Shared/flowbite/entry-field';
 import For from 'modules/Shared/logic/for';
 import Switch, { Case, Default } from 'modules/Shared/logic/switch';
@@ -66,6 +67,24 @@ const TasksUI = ({
             </Switch>
         </>
     );
+};
+
+TasksUI.propTypes = {
+    listId: PropTypes.string.isRequired,
+    tasks: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        listId: PropTypes.string.isRequired,
+        task: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+        isDone: PropTypes.bool.isRequired,
+        created: PropTypes.string.isRequired,
+        updated: PropTypes.string.isRequired
+    })
+    ),
+    handleOnSubmit: PropTypes.func.isRequired,
+    prioritizeDispatch: PropTypes.func.isRequired,
+    updateIsDoneDispatch: PropTypes.func.isRequired,
+    deleteDispatch: PropTypes.func.isRequired
 };
 
 export default TasksUI;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import ListsTableRow from './list-table-row';
 import ArchiveTableRow from './archive-table-row';
 import For from 'modules/Shared/logic/for';
@@ -62,6 +63,24 @@ const ListsUI = ({
             </Switch>
         </>
     );
+};
+
+ListsUI.propTypes = {
+    topicId: PropTypes.string.isRequired,
+    lists: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        topicId: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        keys: PropTypes.array.isRequired,
+        isArchived: PropTypes.bool.isRequired,
+        created: PropTypes.string.isRequired,
+        updated: PropTypes.string.isRequired
+    })
+    ),
+    handleOnSubmit: PropTypes.func.isRequired,
+    setListDispatch: PropTypes.func.isRequired,
+    archiveDispatch: PropTypes.func.isRequired,
+    deleteDispatch: PropTypes.func.isRequired
 };
 
 export default ListsUI;

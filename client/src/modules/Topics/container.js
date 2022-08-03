@@ -5,7 +5,6 @@ import { generateId } from 'lib/helpers';
 import { selectTopics } from './selectors';
 import {
     actionTopicCreate,
-    actionTopicUpdate,
     actionTopicDelete
 } from './actions';
 import {
@@ -44,7 +43,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     createDispatch: actionTopicCreate,
-    updateDispatch: actionTopicUpdate,
     deleteDispatch: actionTopicDelete,
     setTopicDispatch: actionSetTopic
 };

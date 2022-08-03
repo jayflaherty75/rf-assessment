@@ -4,7 +4,6 @@ import ListsUI from './components';
 import { generateId } from 'lib/helpers';
 import {
     actionListCreate,
-    actionListUpdate,
     actionListArchive,
     actionListDelete
 } from './actions';
@@ -49,7 +48,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     createDispatch: actionListCreate,
-    updateDispatch: actionListUpdate,
     archiveDispatch: actionListArchive,
     deleteDispatch: actionListDelete,
     setListDispatch: actionSetList

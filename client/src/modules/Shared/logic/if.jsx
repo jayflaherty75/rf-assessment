@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const If = ({ exp, children }) => {
     const childrenArr = React.Children.toArray(children);
@@ -11,6 +12,9 @@ const If = ({ exp, children }) => {
         )
     );
 }
+If.propTypes = {
+    exp: PropTypes.bool.isRequired
+};
 
 const Then = ({ exp, children }) => exp ? children : null;
 

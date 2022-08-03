@@ -26,11 +26,12 @@ const Breadcrumb = ({ links }) => (
 );
 
 Breadcrumb.propTypes = {
-    links: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string,
-        url: PropTypes.string
-      })
-    )
+    links: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            url: PropTypes.string.isRequired
+        })
+    ).isRequired
 };
 
 export default Breadcrumb;

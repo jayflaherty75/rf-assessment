@@ -20,7 +20,9 @@ const initialState = JSON.parse(localStorage.getItem('tasks')) || {
     listId: 'DEFAULT',
     task: 'Call Mom',
     order: 1,
-    isDone: false
+    isDone: false,
+    created: '1970-01-01T00:00:00.000Z',
+    updated: '1970-01-01T00:00:00.000Z'
   }
 };
 
