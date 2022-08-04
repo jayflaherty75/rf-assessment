@@ -9,13 +9,7 @@ import {
     actionTaskDelete
 } from './actions';
 import { selectCurrentList } from 'modules/App/selectors';
-import { selectTasks } from './selectors';
-
-const filterTaskIdsInList = listId => task => task.listId === listId;
-const sortKeysDesc = (task1, task2) => task2.order - task1.order;
-const mapTasksToArray = (tasks, listId) => Object.values(tasks)
-        .filter(filterTaskIdsInList(listId))
-        .sort(sortKeysDesc);
+import { selectOrderedTasks } from './selectors';
 
 const TasksPage = ({ tasks, listId, createDispatch, updateIsDoneDispatch, prioritizeDispatch, deleteDispatch }) => {
     const inputRef = useRef(null);
@@ -31,7 +25,7 @@ const TasksPage = ({ tasks, listId, createDispatch, updateIsDoneDispatch, priori
     return (
         <TasksUI
             listId={listId}
-            tasks={mapTasksToArray(tasks, listId)}
+            tasks={tasks}
             inputRef={inputRef}
             handleOnSubmit={handleOnSubmit}
             updateIsDoneDispatch={updateIsDoneDispatch}
@@ -41,10 +35,12 @@ const TasksPage = ({ tasks, listId, createDispatch, updateIsDoneDispatch, priori
     );
 };
 
-const mapStateToProps = state => ({
-	tasks: selectTasks(state),
-    listId: selectCurrentList(state)
-});
+const mapStateToProps = state => {
+    const listId = selectCurrentList(state);
+    const tasks = selectOrderedTasks(state, listId);
+  
+    return { tasks, listId };
+}
 
 const mapDispatchToProps = {
     createDispatch: actionTaskCreate,

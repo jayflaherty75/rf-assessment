@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import TopicsUI from './components';
 import { generateId } from 'lib/helpers';
-import { selectTopics } from './selectors';
+import { selectOrderedTopics } from './selectors';
 import {
     actionTopicCreate,
     actionTopicDelete
@@ -10,9 +10,6 @@ import {
 import {
     actionSetTopic,
 } from 'modules/App/actions';
-import { sortByUpdated } from 'lib/helpers';
-
-const mapTopicsToArray = topics => sortByUpdated(Object.values(topics));
 
 const TopicsPage = ({ topics, createDispatch, setTopicDispatch, deleteDispatch }) => {
     const inputRef = useRef(null);
@@ -27,7 +24,7 @@ const TopicsPage = ({ topics, createDispatch, setTopicDispatch, deleteDispatch }
 
     return (
         <TopicsUI
-            topics={mapTopicsToArray(topics)}
+            topics={topics}
             inputRef={inputRef}
             handleOnSubmit={handleOnSubmit}
             setTopicDispatch={setTopicDispatch}
@@ -37,7 +34,7 @@ const TopicsPage = ({ topics, createDispatch, setTopicDispatch, deleteDispatch }
 };
 
 const mapStateToProps = state => ({
-	topics: selectTopics(state),
+	topics: selectOrderedTopics(state),
 });
 
 const mapDispatchToProps = {

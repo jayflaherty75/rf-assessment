@@ -11,11 +11,7 @@ import {
     actionSetList,
 } from 'modules/App/actions';
 import { selectCurrentTopic } from 'modules/App/selectors';
-import { selectLists } from './selectors';
-
-const filterListIdsInTopic = (topicId) => list => list.topicId === topicId;
-const mapListsToArray = (lists, topicId) => Object.values(lists)
-    .filter(filterListIdsInTopic(topicId));
+import { selectOrderedLists } from './selectors';
 
 const ListsPage = ({ lists, topicId, createDispatch, setListDispatch, archiveDispatch, deleteDispatch }) => {
     const inputRef = useRef(null);
@@ -30,7 +26,7 @@ const ListsPage = ({ lists, topicId, createDispatch, setListDispatch, archiveDis
 
     return (
         <ListsUI
-            lists={mapListsToArray(lists, topicId)}
+            lists={lists}
             inputRef={inputRef}
             handleOnSubmit={handleOnSubmit}
             setListDispatch={setListDispatch}
@@ -40,10 +36,12 @@ const ListsPage = ({ lists, topicId, createDispatch, setListDispatch, archiveDis
     );
 };
 
-const mapStateToProps = state => ({
-	lists: selectLists(state),
-    topicId: selectCurrentTopic(state)
-});
+const mapStateToProps = state => {
+    const topicId = selectCurrentTopic(state);
+    const lists = selectOrderedLists(state, topicId);
+  
+    return { lists, topicId };
+}
 
 const mapDispatchToProps = {
     createDispatch: actionListCreate,
