@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import EntryField from 'modules/Shared/flowbite/entry-field';
-import For from 'modules/Shared/logic/for';
 import Switch, { Case, Default } from 'modules/Shared/logic/switch';
 import Tabs from 'modules/Shared/flowbite/tabs';
-import { Table } from 'modules/Shared/flowbite/table';
-import TaskTableRow from './task-table-row';
-import TaskDoneTableRow from './task-done-table-row';
+import TaskTable from './task-table';
+import TaskDoneTable from './task-done-table';
 
 const tabs = [
     { description: 'Todo', name: 'todo' },
@@ -22,41 +19,26 @@ const TasksUI = ({
     deleteDispatch
 }) => {
     const [ tab, setTab ] = useState(0);
-    const [ taskValue, setTaskValue ] = useState('');
 
     return (
         <>
             <Tabs tabs={tabs} select={tab} onSelect={setTab} />
             <Switch exp={tabs[tab]?.name}>
                 <Case value="todo">
-                    <>
-                        <EntryField
-                            description="New Task"
-                            buttonText="Create"
-                            name="task"
-                            value={taskValue}
-                            inputRef={inputRef}
-                            onChange={e => setTaskValue(e.target.value)}
-                            onSubmit={e => {
-                                e.preventDefault();
-                                handleOnSubmit();
-                                setTaskValue('');
-                                return false;
-                            }}
-                        />
-                        <Table>
-                            <For data={tasks.filter(task => !task.isDone)}>
-                                <TaskTableRow {...{prioritizeDispatch, updateIsDoneDispatch}} />
-                            </For>
-                        </Table>
-                    </>
+                    <TaskTable
+                        tasks={tasks}
+                        inputRef={inputRef}
+                        handleOnSubmit={handleOnSubmit}
+                        prioritizeDispatch={prioritizeDispatch}
+                        updateIsDoneDispatch={updateIsDoneDispatch}
+                    />
                 </Case>
                 <Case value="done">
-                    <Table>
-                        <For data={tasks.filter(task => task.isDone)}>
-                            <TaskDoneTableRow {...{updateIsDoneDispatch, deleteDispatch}} />
-                        </For>
-                    </Table>
+                    <TaskDoneTable
+                        tasks={tasks}
+                        updateIsDoneDispatch={updateIsDoneDispatch}
+                        deleteDispatch={deleteDispatch}
+                    />
                 </Case>
                 <Default>Invalid tab</Default>
             </Switch>
