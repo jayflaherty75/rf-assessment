@@ -13,13 +13,9 @@ const tabs = [
     { description: 'Done', name: 'done' },
 ];
 
-const filterTaskIdsInList = (tasks, listId) => id => tasks[id].listId === listId;
-
-const sortKeysDesc = tasks => (id1, id2) => tasks[id2].order - tasks[id1].order;
-
 const TasksUI = ({
-    listId,
     tasks,
+    inputRef,
     handleOnSubmit,
     prioritizeDispatch,
     updateIsDoneDispatch,
@@ -27,9 +23,6 @@ const TasksUI = ({
 }) => {
     const [ tab, setTab ] = useState(0);
     const [ taskValue, setTaskValue ] = useState('');
-    const ids = Object.keys(tasks)
-        .filter(filterTaskIdsInList(tasks, listId))
-        .sort(sortKeysDesc(tasks));
 
     return (
         <>
@@ -42,24 +35,26 @@ const TasksUI = ({
                             buttonText="Create"
                             name="task"
                             value={taskValue}
+                            inputRef={inputRef}
                             onChange={e => setTaskValue(e.target.value)}
                             onSubmit={e => {
-                                handleOnSubmit(e);
+                                e.preventDefault();
+                                handleOnSubmit();
                                 setTaskValue('');
                                 return false;
                             }}
                         />
                         <Table>
-                            <For data={ids.filter(id => !tasks[id].isDone)}>
-                                <TaskTableRow {...{tasks, prioritizeDispatch, updateIsDoneDispatch}} />
+                            <For data={tasks.filter(task => !task.isDone)}>
+                                <TaskTableRow {...{prioritizeDispatch, updateIsDoneDispatch}} />
                             </For>
                         </Table>
                     </>
                 </Case>
                 <Case value="done">
                     <Table>
-                        <For data={ids.filter(id => tasks[id].isDone)}>
-                            <TaskDoneTableRow {...{tasks, updateIsDoneDispatch, deleteDispatch}} />
+                        <For data={tasks.filter(task => task.isDone)}>
+                            <TaskDoneTableRow {...{updateIsDoneDispatch, deleteDispatch}} />
                         </For>
                     </Table>
                 </Case>
@@ -70,8 +65,7 @@ const TasksUI = ({
 };
 
 TasksUI.propTypes = {
-    listId: PropTypes.string.isRequired,
-    tasks: PropTypes.objectOf(PropTypes.shape({
+    tasks: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         listId: PropTypes.string.isRequired,
         task: PropTypes.string.isRequired,

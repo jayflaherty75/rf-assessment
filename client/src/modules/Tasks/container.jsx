@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef } from 'react';
 import { connect } from 'react-redux';
 import TasksUI from './components';
 import { generateId } from 'lib/helpers';
@@ -11,32 +11,34 @@ import {
 import { selectCurrentList } from 'modules/App/selectors';
 import { selectTasks } from './selectors';
 
-class TasksPage extends React.Component {
-    handleOnSubmit = event => {
-        event.preventDefault();
+const filterTaskIdsInList = listId => task => task.listId === listId;
+const sortKeysDesc = (task1, task2) => task2.order - task1.order;
+const mapTasksToArray = (tasks, listId) => Object.values(tasks)
+        .filter(filterTaskIdsInList(listId))
+        .sort(sortKeysDesc);
 
-        const { listId, createDispatch } = this.props;
-        const task = document.querySelector('#taskInput')?.value;
+const TasksPage = ({ tasks, listId, createDispatch, updateIsDoneDispatch, prioritizeDispatch, deleteDispatch }) => {
+    const inputRef = useRef(null);
 
-        if (task) {
-            createDispatch(generateId(), listId, task);
+    const handleOnSubmit = () => {
+        const value = inputRef.current.value;
+
+        if (value) {
+            createDispatch(generateId(), listId, value);
         }
     }
 
-    render() {
-        const { tasks, listId, updateIsDoneDispatch, prioritizeDispatch, deleteDispatch } = this.props;
-
-        return (
-            <TasksUI
-                listId={listId}
-                tasks={tasks}
-                handleOnSubmit={this.handleOnSubmit}
-                updateIsDoneDispatch={updateIsDoneDispatch}
-                prioritizeDispatch={prioritizeDispatch}
-                deleteDispatch={deleteDispatch}
-            />
-        );
-    }
+    return (
+        <TasksUI
+            listId={listId}
+            tasks={mapTasksToArray(tasks, listId)}
+            inputRef={inputRef}
+            handleOnSubmit={handleOnSubmit}
+            updateIsDoneDispatch={updateIsDoneDispatch}
+            prioritizeDispatch={prioritizeDispatch}
+            deleteDispatch={deleteDispatch}
+        />
+    );
 };
 
 const mapStateToProps = state => ({

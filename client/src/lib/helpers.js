@@ -1,9 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-const parseDate = d => d ? Date.parse(d) : 0;
-
-const sortByUpdated = (ids, data) => ids.sort(
-    (id1, id2) => parseDate(data[id2].updated) - parseDate(data[id1].updated)
+const _parseDate = d => d ? Date.parse(d) : 0;
+const sortByUpdated = (data) => data.sort(
+    (d1, d2) => _parseDate(d2.updated) - _parseDate(d1.updated)
 );
 
 const generateId = () => uuid();

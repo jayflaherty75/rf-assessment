@@ -4,16 +4,15 @@ import For from 'modules/Shared/logic/for';
 import TopicsTableRow from './topics-table-row';
 import EntryField from 'modules/Shared/flowbite/entry-field';
 import { Table } from 'modules/Shared/flowbite/table';
-import { sortByUpdated } from 'lib/helpers';
 
 const TopicsUI = ({
     topics,
+    inputRef,
     handleOnSubmit,
     setTopicDispatch,
     deleteDispatch
 }) => {
     const [ topicValue, setTopicValue ] = useState('');
-    const ids = sortByUpdated(Object.keys(topics), topics);
 
     return (
         <>
@@ -22,16 +21,18 @@ const TopicsUI = ({
                 buttonText="Create"
                 name="topic"
                 value={topicValue}
+                inputRef={inputRef}
                 onChange={e => setTopicValue(e.target.value)}
                 onSubmit={e => {
-                    handleOnSubmit(e);
+                    e.preventDefault();
+                    handleOnSubmit();
                     setTopicValue('');
                     return false;
                 }}
             />
             <Table>
-                <For data={ids}>
-                    <TopicsTableRow {...{ topics, setTopicDispatch, deleteDispatch }} />
+                <For data={topics}>
+                    <TopicsTableRow {...{ setTopicDispatch, deleteDispatch }} />
                 </For>
             </Table>
         </>
@@ -39,7 +40,7 @@ const TopicsUI = ({
 };
 
 TopicsUI.propTypes = {
-    topics: PropTypes.objectOf(PropTypes.shape({
+    topics: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         created: PropTypes.string.isRequired,

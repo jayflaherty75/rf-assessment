@@ -7,13 +7,13 @@ import {
 import XIcon from 'modules/Shared/icons/x';
 import { truncate } from 'lib/helpers';
 
-const TopicsTableRow = ({ topics, item, setTopicDispatch, deleteDispatch }) => (
+const TopicsTableRow = ({ item, setTopicDispatch, deleteDispatch }) => (
     <TableRow>
         <TableCellLeft>
-            <Link to="/lists" onClick={() => setTopicDispatch(item)}>{truncate(topics[item].name, 30)}</Link>
+            <Link to="/lists" onClick={() => setTopicDispatch(item.id)}>{truncate(item.name, 30)}</Link>
         </TableCellLeft>
         <TableCellRight>
-            <div onClick={() => deleteDispatch(item)}><XIcon/></div>
+            <div onClick={() => deleteDispatch(item.id)}><XIcon/></div>
         </TableCellRight>
     </TableRow>
 );

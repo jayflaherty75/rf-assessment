@@ -13,11 +13,9 @@ const tabs = [
     { description: 'Archive', name: 'archive' },
 ];
 
-const filterListIdsInTopic = (lists, topicId) => id => lists[id].topicId === topicId;
-
 const ListsUI = ({
-    topicId,
     lists,
+    inputRef,
     handleOnSubmit,
     setListDispatch,
     archiveDispatch,
@@ -25,7 +23,6 @@ const ListsUI = ({
 }) => {
     const [ tab, setTab ] = useState(0);
     const [ listValue, setListValue ] = useState('');
-    const ids = Object.keys(lists).filter(filterListIdsInTopic(lists, topicId));
 
     return (
         <>
@@ -38,24 +35,26 @@ const ListsUI = ({
                             buttonText="Create"
                             name="list"
                             value={listValue}
+                            inputRef={inputRef}
                             onChange={e => setListValue(e.target.value)}
                             onSubmit={e => {
-                                handleOnSubmit(e);
+                                e.preventDefault();
+                                handleOnSubmit();
                                 setListValue('');
                                 return false;
                             }}
                         />
                         <Table>
-                            <For data={ids.filter(id => !lists[id].isArchived)}>
-                                <ListsTableRow {...{ lists, setListDispatch, archiveDispatch }} />
+                            <For data={lists.filter(list => !list.isArchived)}>
+                                <ListsTableRow {...{ setListDispatch, archiveDispatch }} />
                             </For>
                         </Table>
                     </>
                 </Case>
                 <Case value="archive">
                     <Table>
-                        <For data={ids.filter(id => lists[id].isArchived)}>
-                            <ArchiveTableRow {...{ lists, setListDispatch, deleteDispatch }} />
+                        <For data={lists.filter(list => list.isArchived)}>
+                            <ArchiveTableRow {...{ setListDispatch, deleteDispatch }} />
                         </For>
                     </Table>
                 </Case>
@@ -66,8 +65,7 @@ const ListsUI = ({
 };
 
 ListsUI.propTypes = {
-    topicId: PropTypes.string.isRequired,
-    lists: PropTypes.objectOf(PropTypes.shape({
+    lists: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         topicId: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,

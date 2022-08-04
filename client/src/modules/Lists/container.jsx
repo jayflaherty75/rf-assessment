@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import ListsUI from './components';
 import { generateId } from 'lib/helpers';
@@ -13,32 +13,31 @@ import {
 import { selectCurrentTopic } from 'modules/App/selectors';
 import { selectLists } from './selectors';
 
-class ListsPage extends React.Component {
-    handleOnSubmit = event => {
-        event.preventDefault();
+const filterListIdsInTopic = (topicId) => list => list.topicId === topicId;
+const mapListsToArray = (lists, topicId) => Object.values(lists)
+    .filter(filterListIdsInTopic(topicId));
 
-        const { topicId, createDispatch } = this.props;
-        const list = document.querySelector('#listInput')?.value;
+const ListsPage = ({ lists, topicId, createDispatch, setListDispatch, archiveDispatch, deleteDispatch }) => {
+    const inputRef = useRef(null);
 
-        if (list) {
-            createDispatch(generateId(), topicId, list);
+    const handleOnSubmit = () => {
+        const value = inputRef.current.value;
+
+        if (value) {
+            createDispatch(generateId(), topicId, value);
         }
     }
 
-    render() {
-        const { lists, topicId, setListDispatch, archiveDispatch, deleteDispatch } = this.props;
-
-        return (
-            <ListsUI
-                topicId={topicId}
-                lists={lists}
-                handleOnSubmit={this.handleOnSubmit}
-                setListDispatch={setListDispatch}
-                archiveDispatch={archiveDispatch}
-                deleteDispatch={deleteDispatch}
-            />
-        );
-    }
+    return (
+        <ListsUI
+            lists={mapListsToArray(lists, topicId)}
+            inputRef={inputRef}
+            handleOnSubmit={handleOnSubmit}
+            setListDispatch={setListDispatch}
+            archiveDispatch={archiveDispatch}
+            deleteDispatch={deleteDispatch}
+        />
+    );
 };
 
 const mapStateToProps = state => ({

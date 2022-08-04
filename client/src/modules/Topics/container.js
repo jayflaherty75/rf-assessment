@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import TopicsUI from './components';
 import { generateId } from 'lib/helpers';
@@ -10,31 +10,30 @@ import {
 import {
     actionSetTopic,
 } from 'modules/App/actions';
+import { sortByUpdated } from 'lib/helpers';
 
-class TopicsPage extends React.Component {
-    handleOnSubmit = event => {
-        event.preventDefault();
+const mapTopicsToArray = topics => sortByUpdated(Object.values(topics));
 
-        const { createDispatch } = this.props;
-        const topic = document.querySelector('#topicInput')?.value;
+const TopicsPage = ({ topics, createDispatch, setTopicDispatch, deleteDispatch }) => {
+    const inputRef = useRef(null);
 
-        if (topic) {
-            createDispatch(generateId(), topic);
+    const handleOnSubmit = () => {
+        const value = inputRef.current.value;
+
+        if (value) {
+            createDispatch(generateId(), value);
         }
     }
 
-    render() {
-        const { topics, setTopicDispatch, deleteDispatch } = this.props;
-
-        return (
-            <TopicsUI
-                topics={topics}
-                handleOnSubmit={this.handleOnSubmit}
-                setTopicDispatch={setTopicDispatch}
-                deleteDispatch={deleteDispatch}
-            />
-        );
-    }
+    return (
+        <TopicsUI
+            topics={mapTopicsToArray(topics)}
+            inputRef={inputRef}
+            handleOnSubmit={handleOnSubmit}
+            setTopicDispatch={setTopicDispatch}
+            deleteDispatch={deleteDispatch}
+        />
+    );
 };
 
 const mapStateToProps = state => ({

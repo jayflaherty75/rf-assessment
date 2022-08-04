@@ -9,18 +9,18 @@ import ArrowUpIcon from 'modules/Shared/icons/arrow-up';
 import CheckIcon from 'modules/Shared/icons/check';
 import { truncate } from 'lib/helpers';
 
-const TaskTableRow = ({ tasks, item, index, prioritizeDispatch, updateIsDoneDispatch }) => (
+const TaskTableRow = ({ item, index, prioritizeDispatch, updateIsDoneDispatch }) => (
     <TableRow>
-        <TableCellLeft>{truncate(tasks[item].task, 30)}</TableCellLeft>
+        <TableCellLeft>{truncate(item.task, 30)}</TableCellLeft>
         <TableCell>
             <If exp={index > 0}>
                 <Then>
-                    <div onClick={() => prioritizeDispatch(item, true)}><ArrowUpIcon /></div>
+                    <div onClick={() => prioritizeDispatch(item.id)}><ArrowUpIcon /></div>
                 </Then>
             </If>
         </TableCell>
         <TableCellRight>
-            <div onClick={() => updateIsDoneDispatch(item, true)}><CheckIcon/></div>
+            <div onClick={() => updateIsDoneDispatch(item.id, true)}><CheckIcon/></div>
         </TableCellRight>
     </TableRow>
 );
