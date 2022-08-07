@@ -45,8 +45,7 @@ TopicsUI.propTypes = {
         name: PropTypes.string.isRequired,
         created: PropTypes.string.isRequired,
         updated: PropTypes.string.isRequired
-    })
-    ),
+    })),
     handleOnSubmit: PropTypes.func.isRequired,
     setTopicDispatch: PropTypes.func.isRequired,
     deleteDispatch: PropTypes.func.isRequired

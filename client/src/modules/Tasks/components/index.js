@@ -55,8 +55,7 @@ TasksUI.propTypes = {
         isDone: PropTypes.bool.isRequired,
         created: PropTypes.string.isRequired,
         updated: PropTypes.string.isRequired
-    })
-    ),
+    })),
     handleOnSubmit: PropTypes.func.isRequired,
     prioritizeDispatch: PropTypes.func.isRequired,
     updateIsDoneDispatch: PropTypes.func.isRequired,

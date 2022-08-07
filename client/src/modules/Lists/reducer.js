@@ -23,7 +23,8 @@ const listsReducer = createSlice({
 
         if (!state[id]) {
           state[id] = {
-            id, topicId, title,
+            id, topicId,
+            title: title.trim(),
             keys: [],
             isArchived: false,
             created: date,
@@ -35,7 +36,7 @@ const listsReducer = createSlice({
         const { id, title } = payload;
         const date = (new Date()).toISOString();
 
-        state[id].title = title;
+        state[id].title = title.trim();
         state[id].updated = date;
       },
       archive: (state, { payload }) => {

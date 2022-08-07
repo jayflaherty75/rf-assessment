@@ -20,7 +20,8 @@ const topicsReducer = createSlice({
 
         if (!state[id]) {
           state[id] = {
-            id, name,
+            id,
+            name: name.trim(),
             created: date,
             updated: date
           };
@@ -30,7 +31,7 @@ const topicsReducer = createSlice({
         const { id, name } = payload;
         const date = (new Date()).toISOString();
 
-        state[id].name = name;
+        state[id].name = name.trim();
         state[id].updated = date;
       },
       delete: (state, { payload }) => {

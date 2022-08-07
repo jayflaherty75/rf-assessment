@@ -37,7 +37,8 @@ const tasksReducer = createSlice({
 
         if (!state[id]) {
           state[id] = {
-            id, listId, task, order,
+            id, listId, order,
+            task: task.trim(),
             isDone: false,
             created: date,
             updated: date
@@ -48,7 +49,7 @@ const tasksReducer = createSlice({
         const { id, task } = payload;
         const date = (new Date()).toISOString();
 
-        state[id].task = task;
+        state[id].task = task.trim();
         state[id].updated = date;
       },
       updateIsDone: (state, { payload }) => {

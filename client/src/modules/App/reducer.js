@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import './workers';
 
 const initialState = {
     topicId: 'DEFAULT',

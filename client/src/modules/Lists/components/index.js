@@ -55,8 +55,7 @@ ListsUI.propTypes = {
         isArchived: PropTypes.bool.isRequired,
         created: PropTypes.string.isRequired,
         updated: PropTypes.string.isRequired
-    })
-    ),
+    })),
     handleOnSubmit: PropTypes.func.isRequired,
     setListDispatch: PropTypes.func.isRequired,
     archiveDispatch: PropTypes.func.isRequired,
