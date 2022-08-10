@@ -3,7 +3,7 @@ import './workers';
 
 const initialState = {
   isInitialized: false,
-  isOnline: false,
+  isOnline: true,
   topicId: 'DEFAULT',
   listId: 'DEFAULT'
 };
@@ -14,7 +14,6 @@ const appReducer = createSlice({
     reducers: {
       initialize: state => {
         state.isInitialized = true;
-        state.isOnline = window.navigator.onLine;
       },
       isOnline: (state, { payload }) => {
         state.isOnline = payload;
