@@ -2,15 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import './workers';
 
 const initialState = {
-    topicId: 'DEFAULT',
-    listId: 'DEFAULT'
+  isInitialized: false,
+  topicId: 'DEFAULT',
+  listId: 'DEFAULT'
 };
 
 const appReducer = createSlice({
     name: 'app',
     initialState,
     reducers: {
-      initialize: state => state,
+      initialize: state => {
+        state.isInitialized = true;
+      },
       setTopic: (state, action) => {
         state.topicId = action.payload.id
       },
