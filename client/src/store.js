@@ -24,7 +24,7 @@ const store = configureStore({
 });
 
 workers.initialize({
-    getState: () => store.getState(),
+    store,
     dispatch: action => store.dispatch(action),
 });
 

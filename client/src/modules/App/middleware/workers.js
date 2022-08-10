@@ -6,7 +6,7 @@ const WORKERS_ERROR_ACTION = 'workers/error';
 const initializationErrorMsg = 'Worker middleware must be initialized with a valid dispatcher.';
 const invalidKeyErrorMsg = 'Invalid or missing message key type';
 
-let _getState = null;
+let _store = null;
 let _dispatch = null;
 let _emitter = new EventEmitter();
 
@@ -15,19 +15,19 @@ const _errorAction = error => ({ type: WORKERS_ERROR_ACTION, error });
 /**
  * Initialize worker middleware with the given options.
  * @param {object} options
+ * @param {object} [options.store] - Redux store
  * @param {function} options.dispatch - Dispatches action
- * @param {function} [options.getState] - Returns state
  * @param {EventEmitter} [options.emitter] - Event emitter instance
  * @throws {Error}
  */
-const initialize = ({ dispatch, getState, emitter }) => {
+const initialize = ({ store, dispatch, emitter }) => {
 	if (typeof dispatch !== 'function') {
 		throw (new Error(initializationErrorMsg));
 	}
 
-	_getState = getState || null;
+	_store = store;
 	_dispatch = dispatch;
-	_emitter = emitter || new EventEmitter(); 
+	_emitter = emitter || _emitter;
 };
 
 /**
@@ -40,10 +40,10 @@ const initialize = ({ dispatch, getState, emitter }) => {
  * @param {function} selector accepting state as first argument and returning
  * 	a value
  * @returns {function}
- * @throws {TypeError} if `getState` is not set during initialization
+ * @throws {TypeError} if `store` is not set during initialization
  */
 const createSelector = (selector) => {
-	return (...args) => selector(_getState(), ...args);
+	return (...args) => selector(_store.getState(), ...args);
 };
 
 /**

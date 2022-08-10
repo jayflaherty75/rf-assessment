@@ -6,9 +6,9 @@ import { saveTasksWorker } from './save-tasks-worker';
 workers.on('lists/delete', taskCleanupWorker);
 
 // Save state of all tasks
-workers
-    .on('tasks/create', saveTasksWorker)
-    .on('tasks/update', saveTasksWorker)
-    .on('tasks/updateIsDone', saveTasksWorker)
-    .on('tasks/prioritize', saveTasksWorker)
-    .on('tasks/delete', saveTasksWorker);
+//workers
+workers.on('tasks/create', saveTasksWorker)
+workers.on('tasks/update', saveTasksWorker)
+workers.on('tasks/updateIsDone', saveTasksWorker)
+workers.on('tasks/prioritize', saveTasksWorker)
+workers.on('tasks/delete', saveTasksWorker);
