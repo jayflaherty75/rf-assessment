@@ -9,7 +9,8 @@ import App from 'modules/App';
 import TopicsPage from 'modules/Topics/container';
 import ListsPage from 'modules/Lists/container';
 import TasksPage from 'modules/Tasks/container';
-
+import { actionIsOnline } from 'modules/App/actions';
+import { actionAlertMessage } from 'modules/Shared/components/Alerts/actions';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,6 +32,11 @@ root.render(
   </React.StrictMode>
 );
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.register({
+  onOffline: () => {
+    store.dispatch(actionIsOnline(false));
+    store.dispatch(actionAlertMessage('warn', 'You are offline'));
+  }
+});
 
 reportWebVitals();

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Outlet } from "react-router-dom";
 import Header from './components/header';
+import Alerts from 'modules/Shared/components/Alerts';
 import {
   selectIsInitialized,
   selectCurrentTopic,
@@ -14,16 +15,19 @@ import './index.css';
 
 const App = ({ isInitialized, topicId, listId, topicName, listTitle }) => {
   return isInitialized ? (
-      <div className="App">
-        <Header
-          topicId={topicId}
-          listId={listId}
-          topicName={topicName}
-          listTitle={listTitle}
-        />
-        <br/>
-        <div><Outlet /></div>
+    <div className="App">
+      <Header
+        topicId={topicId}
+        listId={listId}
+        topicName={topicName}
+        listTitle={listTitle}
+      />
+      <br/>
+      <div>
+        <Outlet />
       </div>
+      <Alerts />
+    </div>
   ) : null;
 };
 

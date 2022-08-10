@@ -4,13 +4,15 @@ import { actionInitialize } from 'modules/App/actions';
 import topicsReducer from 'modules/Topics/reducer';
 import listsReducer from 'modules/Lists/reducer';
 import tasksReducer from 'modules/Tasks/reducer';
+import alertsReducer from 'modules/Shared/components/Alerts/reducer';
 import * as workers from 'modules/App/middleware/workers';
 
 const reducer = {
     app: appReducer,
+    alerts: alertsReducer,
     topics: topicsReducer,
     lists: listsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
 }
 
 const store = configureStore({
