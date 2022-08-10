@@ -3,7 +3,7 @@ import appReducer from 'modules/App/reducer';
 import topicsReducer from 'modules/Topics/reducer';
 import listsReducer from 'modules/Lists/reducer';
 import tasksReducer from 'modules/Tasks/reducer';
-import workersMiddleware, { initializeWorkers } from 'modules/App/middleware/workers';
+import * as workers from 'modules/App/middleware/workers';
 
 const reducer = {
     app: appReducer,
@@ -16,11 +16,14 @@ const store = configureStore({
     devTools: process.env.NODE_ENV !== 'production',
     reducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-        workersMiddleware
+        workers.reduxMiddleware
     )
 });
 
-initializeWorkers(store);
+workers.initialize({
+    getState: () => store.getState(),
+    dispatch: action => store.dispatch(action),
+});
 
 store.dispatch({ type: 'app/initialize' });
 
