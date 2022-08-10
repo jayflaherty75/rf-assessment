@@ -5,6 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from 'store';
+import { actionIsOnline } from 'modules/App/actions';
 import App from 'modules/App';
 import TopicsPage from 'modules/Topics/container';
 import ListsPage from 'modules/Lists/container';
@@ -31,6 +32,18 @@ root.render(
   </React.StrictMode>
 );
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.register({
+  onSuccess: () => store.dispatch(actionIsOnline(true)),
+  onOffline: () => {
+    store.dispatch(actionIsOnline(false));
+    store.dispatch({
+      type: 'error/message',
+      error: {
+        level: 'info',
+        message: 'Offline mode'
+      }
+    });
+  }
+});
 
 reportWebVitals();

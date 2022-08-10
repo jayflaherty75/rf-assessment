@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import appReducer from 'modules/App/reducer';
+import { actionInitialize } from 'modules/App/actions';
 import topicsReducer from 'modules/Topics/reducer';
 import listsReducer from 'modules/Lists/reducer';
 import tasksReducer from 'modules/Tasks/reducer';
@@ -25,6 +26,6 @@ workers.initialize({
     dispatch: action => store.dispatch(action),
 });
 
-store.dispatch({ type: 'app/initialize' });
+store.dispatch(actionInitialize());
 
 export default store;

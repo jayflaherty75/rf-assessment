@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Outlet } from "react-router-dom";
 import Header from './components/header';
 import {
-  selectIsInitialize,
+  selectIsInitialized,
   selectCurrentTopic,
   selectCurrentList
 } from './selectors';
@@ -28,7 +28,7 @@ const App = ({ isInitialized, topicId, listId, topicName, listTitle }) => {
 };
 
 const mapStateToProps = state => {
-  const isInitialized = selectIsInitialize(state);
+  const isInitialized = selectIsInitialized(state);
   const topicId =  selectCurrentTopic(state);
   const listId = selectCurrentList(state);
   const topicName = selectTopicName(state, topicId);
