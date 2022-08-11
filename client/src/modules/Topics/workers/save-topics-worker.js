@@ -4,9 +4,7 @@ import { debounce, delay } from 'lib/helpers';
 const selectAllTopics = createSelector(state => state.topics);
 
 export const saveTopicsWorker = debounce(async () => {
-    const topics = selectAllTopics();
-
     await delay(250);
 
-    localStorage.setItem('topics', JSON.stringify(topics));
+    localStorage.setItem('topics', JSON.stringify(selectAllTopics()));
 }, 1000);
